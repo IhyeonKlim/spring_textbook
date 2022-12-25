@@ -5,9 +5,15 @@
         http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- 옛날 방식으로 bean 등록하는 방법-->
+    <!-- 클럽 스토어라는 빈을 등록한다. class는 풀 패키지.-->
+    <bean id="clubStore" class="io.namoosori.travelclub.spring.store.mapstore.ClubMapStore" />
+
+    <!-- 등록한 녀석을 사용하고 싶으면 constructor-arg로 등록한다. -->
+    <bean id="clubService" class="io.namoosori.travelclub.spring.service.logic.ClubServiceLogic">
+        <constructor-arg ref="clubStore" />
+    </bean>
+
+    <!-- 즉, 이 말은 clubServiceLogic이 생성되는 시점에 생성자를 호출하면서 clubMapStore를 new 해서 여기다가 파라미터로 넘겨주세요. -->
+
 </beans>
-
-
-
-
-
