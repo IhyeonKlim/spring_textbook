@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>detail</title>
+</head>
+<body>
+<th:block th:each="list : ${data}">
+  <p th:text="${list.id}"></p>
+  <p th:text="${list.boardType}"></p>
+  <p th:text="${list.boardNo}"></p>
+  <p th:text="${list.title}"></p>
+  <p th:text="${list.contents}"></p>
+  <p th:text="${list.register}"></p>
+  <p th:text="${list.userId}"></p>
+  <p th:text="${list.viewCnt}"></p>
+  <p th:text="${list.regDt}"></p>
+  <p th:text="${list.upDt}"></p>
+  <p th:text="${list.auth}"></p>
+</th:block>
+</body>
+</html>

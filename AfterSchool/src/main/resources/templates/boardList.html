@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:each="list : ${data}">
+        <p th:text="${list.id}"></p>
+        <p th:text="${list.name}"></p>
+        <p th:text="${list.user}"></p>
+    </th:block>
+</body>
+</html>
