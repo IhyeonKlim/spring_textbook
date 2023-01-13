@@ -1,0 +1,35 @@
+var ajax = new XMLHttpRequest():
+     ajax.onreadystatechange = function(){
+	if (this.readyState == 4 && this.status == 200){
+		console.log(ajax.responseText)
+	}
+     ajax.open("GET","https://~.json",true);
+     ajax.send();
+
+
+fetch("https://~.json")
+	.then((response)  => {
+	if (!response.ok) {
+		throw new Error('400 or 500 error')
+	}	     
+	return response.json()
+	})
+	.then((결과) =>{
+	     console.log(결과)
+	})
+	.catch(() =>{
+	     console.log('에러남)
+	})
+
+async function 함수명(){
+	var response = await fetch('http://~')
+	if (!response.ok) {
+	     throw new Error('400 or 500 error');
+	}
+	var result = await response.json();
+	console.log(result)
+}
+함수명().catch(()=>{
+console.log('error')
+}) 
+
