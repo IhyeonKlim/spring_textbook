@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Required meta tags -->
+  <title>update</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const data =  /*[[${data}]]*/;
+    /*]]>*/
+  </script>
+
+  <script>
+    $(document).ready(function(){
+      $("#cancelBtn").click(function(){
+        history.back();
+      });
+
+      $("#updateBtn").click(function(){
+        document.getElementById("boardForm").submit();
+      });
+
+      $("#deleteBtn").click(function(){
+          $.ajax({
+              url: "/board/delete.do" ,
+              data: data,
+              success: function(result){
+                alert("삭제되었습니다.");
+                location.href = "/board/list";
+              }
+          });
+      });
+
+    });
+  </script>
+  <style>
+    .sorting_1{
+      background-color: #dee2e6;
+    }
+    textarea{
+      width:100%;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h1>수정페이지</h1>
+</div>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="index">홈</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="board">게시판</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>상세보기</h2>
+      <form th:action="@{/board/update/{id}(id=${data.id})}"  th:object="${BoardVO}" method="post" id="boardForm">
+      <table class="table">
+        <colgroup>
+          <col width="20%">
+          <col width="20%">
+          <col width="20%">
+          <col width="20%">
+        </colgroup>
+        <input type="hidden" id ="boardId" name="id" th:value="${data.id}">
+        <input type="hidden" id ="userId" name="userId" th:value="${data.userId}">
+        <tbody>
+        <tr>
+          <td class="sorting_1">게시판 타입</td>
+        <tr>
+          <td>
+            <select class="form-select" id="select">
+              <option value=""> ==게시판 구분==</option>
+              <option th:each="options : ${boardOptions}" th:value="${options.code}" th:text="${options.displayName}"></option>
+            </select>
+            <input type="hidden" name="boardType" th:value="${data.boardType}"/>
+            <script>
+              const select = document.getElementById("select");
+              for(let i = 0; i < select.options.length; i++){
+                console.log(select.options[i]);
+                if (select.options[i].value == data.boardType){
+                  select.options[i].selected = true;
+                }
+              }
+            </script>
+          </td>
+        </tr>
+          <td class="sorting_1">게시판 넘버</td>
+          <td>
+            <p th:text="${data.boardNo}" ></p>
+            <input type="hidden" name="boardNo" th:value="${data.boardNo}" />
+          </td>
+        </tr>
+        <tr>
+          <td class="sorting_1"> 별명</td>
+          <td>
+            <input name="register" th:value="${data.register}" />
+          </td>
+          <td class="sorting_1">조회수</td>
+          <td>
+            <p th:text="${data.viewCnt}" ></p>
+            <input type="hidden" name="viewCnt" th:value="${data.viewCnt}" />
+          </td>
+        </tr>
+        <tr>
+          <td class="sorting_1">작성일</td>
+          <td>
+            <p th:text="${data.regDt}" ></p>
+            <input type="hidden" name="regDt" th:value="${data.regDt}" />
+          </td>
+          <td class="sorting_1">수정일</td>
+          <td>
+            <p th:text="${data.upDt != null} ? ${data.upDt} : 'no data'" ></p>
+          </td>
+        </tr>
+        <tr>
+          <td class="sorting_1">제목</td>
+          <td colspan="3">
+            <input name="title" th:value="${data.title}"/>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+        <tr >
+          <td colspan="4" class="sorting_1">내용</td>
+        </tr>
+        <tr>
+          <td colspan="4" style="height: 100px;border-bottom: 1px solid #dee2e6;">
+            <textarea name="contents" th:text="${data.contents}"></textarea>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </form>
+      <button type="button" id="cancelBtn">취소</button>
+      <button type="button" id="updateBtn">수정</button>
+      <button type="button" id="deleteBtn">삭제</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -18,21 +18,33 @@
     border-bottom: 1px solid black;
   }
   </style>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const data =  /*[[${data}]]*/;
+    const options =  /*[[${boardOptions}]]*/;
+    /*]]>*/
+  </script>
   <script type="text/javascript">
     $(document).ready(function() {
         $("#writeBtn").click(function(){
             location.href ="/board/create";
-        })
+        });
         $.ajax({url: "/board/list.do", success: function(result){
           var html = "";
           var type = "";
           result.forEach(function(item){
+              for(let i =0; i < options.length; i++){
+                if(options[i].code == item.boardType){
+                  item.boardType = options[i].displayName;
+                }
+              }
               html+= "<tr> <td>" +  item.boardType + "</td>"
+                            + "<td>" + item.boardNo + "</td>"
               + "<td><a href = '/board/detail/" + item.id + "'>" + item.title + "</a>" + "</td>"
-              + "<td>" + item.contents + "</td>"
               + "<td>" + item.register + "</td>"
               + "<td>" + item.regDt + "</td>"
-         })
+              + "<td>" + item.upDt + "</td>"
+         });
          $("#listArea").append(html)
          $('#example').DataTable();
        }});
@@ -70,7 +82,8 @@
         <colgroup>
           <col width="10%">
           <col width="10%">
-          <col width="40%">
+          <col width="30%">
+          <col width="10%">
           <col width="20%">
           <col width="20%">
         </colgroup>
@@ -81,6 +94,7 @@
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
+          <th>수정일</th>
         </tr>
         </thead>
         <tbody id = "listArea">

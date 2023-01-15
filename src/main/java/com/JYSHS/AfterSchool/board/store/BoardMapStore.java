@@ -57,7 +57,7 @@ public class BoardMapStore implements BoardStoreInterface {
         BoardVO boardVO = boardMap.get(boardId);
         //조회수 가져와서 증가
         int viewCnt = boardVO.getViewCnt();
-        boardVO.setViewCnt(viewCnt++);
+        boardVO.setViewCnt(viewCnt+1);
         return boardVO;
     }
 
@@ -84,6 +84,7 @@ public class BoardMapStore implements BoardStoreInterface {
 
     @Override
     public void update(BoardVO board) {
+        board.setUpDt(regDate);
         boardMap.put(board.getId(), board);
     }
 

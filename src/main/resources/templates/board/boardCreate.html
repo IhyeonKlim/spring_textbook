@@ -16,11 +16,16 @@
     background: #aaa;
   }
   </style>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const options =  /*[[${boardOptions}]]*/;
+    /*]]>*/
+  </script>
 </head>
 <body>
 
 <div class="jumbotron text-center" style="margin-bottom:0">
-  <h1>과제</h1>
+  <h1>등록페이지</h1>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -44,6 +49,14 @@
         <table class="table">
           <tbody>
           <tr>
+            <td>
+              <select th:field="*{boardType}" class="form-select">
+                <option value=""> ==게시판 구분==</option>
+                <option th:each="options : ${boardOptions}" th:value="${options.code}" th:text="${options.displayName}"></option>
+              </select>
+            </td>
+          </tr>
+          <tr>
             <td>제목</td>
             <td>
               <input type="text" th:field="*{title}">
@@ -58,10 +71,7 @@
           <tr style="height: 100px;">
             <td>내용</td>
             <td>
-              <input type="text" th:field="*{contents}">
-            </td>
-            <td>
-              <input type="hidden" th:field="*{boardType}">
+              <textarea type="text" th:field="*{contents}"></textarea>
             </td>
           </tr>
           </tbody>
